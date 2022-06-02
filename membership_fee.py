@@ -1,5 +1,4 @@
-from unit_manager import UnitManager
-
+from organisation import OrganisationUnit
 
 # amounts are in pence
 MIN_WEEKLY_AMOUNT = 2500
@@ -23,8 +22,7 @@ def default_fee(weekly_amount: int) -> int:
 def calculate_membership_fee(
     rent_amount: int,
     rent_period: str,
-    organisation_unit: str,
-    unit_manager: UnitManager,
+    organisation_unit: OrganisationUnit,
 ) -> int:
     """Returns fixed membership fee amount if the organisation unit config has fixed membership fee, else returns the default fee"""
 
@@ -47,8 +45,8 @@ def calculate_membership_fee(
             f"{MIN_MONTHLY_AMOUNT} < monthly rent amount < {MAX_MONTHLY_AMOUNT}"
         )
 
-    if unit_manager.has_fixed_membership_fee(organisation_unit):
-        return unit_manager.fixed_membership_fee_amount(organisation_unit)
+    if organisation_unit.config["has_fixed_membership_fee"]:
+        return organisation_unit.config["fixed_membership_fee_amount"]
 
     weekly_amount = (
         rent_amount
